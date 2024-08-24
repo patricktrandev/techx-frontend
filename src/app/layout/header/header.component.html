@@ -1,0 +1,101 @@
+<nav class="navbar navbar-expand-lg nav-home py-2">
+  <div class="container-fluid">
+    <a class="navbar-brand" (click)="homeNavigate()">
+      <img
+        src="https://res.cloudinary.com/dctb1eocj/image/upload/v1723453744/avatar/logo_q8zea4.png"
+        alt="logo"
+      />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarText"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            role="button"
+            class="nav-link active"
+            aria-current="page"
+            (click)="homeNavigate()"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a role="button" class="nav-link" (click)="homeNavigate()"
+            >Products</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div>
+      <div class="d-flex justify-content-around">
+        <div class="mx-2">
+          <a (click)="cartNavigate()">
+            <button class="btn btn-primary btn-round-2">
+              <i class="fa-solid fa-cart-shopping mx-1"></i>Cart
+            </button>
+          </a>
+        </div>
+        <div class="mx-2" *ngIf="!name || name == null">
+          <button (click)="loginNavigate()" class="btn btn-warning btn-round-2">
+            Login
+          </button>
+        </div>
+
+        <div class="dropdown" *ngIf="name">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ name }}
+            <i class="fa-solid fa-user"></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li *ngIf="roleName == 'ADMIN'">
+              <a
+                role="button"
+                class="dropdown-item dropdown-header"
+                (click)="dashboardNavigate()"
+                >Dashboard</a
+              >
+            </li>
+            <li>
+              <a
+                role="button"
+                class="dropdown-item dropdown-header"
+                (click)="profileNavigate()"
+                >Profile</a
+              >
+            </li>
+            <li>
+              <a
+                (click)="myOrderNavigate()"
+                class="dropdown-item dropdown-header"
+                >My Orders</a
+              >
+            </li>
+            <li>
+              <a
+                (click)="logout()"
+                class="dropdown-item dropdown-header"
+                href="#"
+                >Logout</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>

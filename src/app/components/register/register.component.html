@@ -1,0 +1,202 @@
+<app-header></app-header>
+
+<div class="container common-home-body">
+  <form #registerForm="ngForm">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="register-form mx-auto">
+          <div class="row">
+            <div class="col-3 img-logo text-end">
+              <img
+                role="button"
+                (click)="homeNavigate()"
+                src="https://res.cloudinary.com/dctb1eocj/image/upload/v1723453744/avatar/logo_q8zea4.png"
+              />
+            </div>
+            <div class="col-5">
+              <h2 class="login-header">Register</h2>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="form-group mb-2">
+            <label for="phoneNumber">Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              name="phone"
+              placeholder="Enter your phone number"
+              required
+              [(ngModel)]="phone"
+              #registerControls="ngModel"
+            />
+            <ng-container> </ng-container>
+            <p
+              class="text-errors-message"
+              *ngIf="registerControls.touched && phone.length < 8"
+            >
+              Phone is invalid
+            </p>
+          </div>
+          <div class="form-group mb-2">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              placeholder="Enter your email"
+              required
+              [(ngModel)]="email"
+              #registerControls="ngModel"
+            />
+            <ng-container> </ng-container>
+            <p
+              class="text-errors-message"
+              *ngIf="registerControls.touched && email.length < 8"
+            >
+              Email is invalid
+            </p>
+          </div>
+          <div class="form-group password-field mb-2">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              class="form-control"
+              [(ngModel)]="password"
+              min="5"
+              #registerControls="ngModel"
+              id="password"
+            />
+            <p
+              class="text-errors-message"
+              *ngIf="registerControls.touched && password.length < 5"
+            >
+              Password requires at least 5 characters
+            </p>
+          </div>
+          <div class="form-group password-field mb-2">
+            <label for="retype-password">Confirmed Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              name="confirmPassword"
+              required
+              class="form-control"
+              [(ngModel)]="confirmPassword"
+              (input)="checkPasswordMatched()"
+              #registerControls="ngModel"
+              id="confirmPassword"
+            />
+
+            <ng-container
+              *ngIf="registerControls.touched && confirmPassword.length < 5"
+            >
+              <span class="text-errors-message"
+                >Password requires at least 5 characters.
+              </span>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                registerForm.controls['confirmPassword']?.hasError(
+                  'passwordMismatch'
+                ) && registerControls.touched
+              "
+            >
+              <span class="text-errors-message">Password do not match</span>
+            </ng-container>
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="full-name">Full Name</label>
+            <input
+              type="text"
+              name="fullName"
+              class="form-control"
+              #registerControls="ngModel"
+              [(ngModel)]="fullName"
+              required
+              id="full-name"
+            />
+            <ng-container
+              *ngIf="registerControls.touched && registerControls.errors?.['required']"
+            >
+              <span class="text-errors-message">Full Name is required </span>
+            </ng-container>
+          </div>
+          <div class="form-group mb-2">
+            <label for="date-of-birth">Date of birth</label>
+
+            <input
+              type="date"
+              class="form-control"
+              required
+              id="date-of-birth"
+              name="dateOfBirth"
+              (input)="checkAge()"
+              #registerControls="ngModel"
+              [(ngModel)]="dateOfBirth"
+            />
+            <ng-container
+              *ngIf="
+                registerForm.controls['dateOfBirth']?.hasError('InvalidAge') &&
+                registerControls.touched
+              "
+            >
+              <span class="text-errors-message">Age must be over 16.</span>
+            </ng-container>
+          </div>
+          <div class="form-group mb-2">
+            <label for="address">Address</label>
+            <input
+              type="text"
+              name="address"
+              class="form-control"
+              id="address"
+              required
+              #registerControls="ngModel"
+              [(ngModel)]="address"
+            />
+            <ng-container
+              *ngIf="registerControls.touched && registerControls.errors?.['required']"
+            >
+              <span class="text-errors-message">Address is required </span>
+            </ng-container>
+          </div>
+
+          <div class="form-group mb-5">
+            <div class="form-check checkbox-text">
+              <span style="display: flex">
+                <input
+                  type="checkbox"
+                  name="isAccepted"
+                  class="form-check-input"
+                  [(ngModel)]="isAccepted"
+                  id="agree"
+                />
+                <label class="form-check-label text-start mx-2" for="agree">
+                  By signing up you agree to our Terms and conditions and
+                  Privacy policy</label
+                >
+              </span>
+            </div>
+          </div>
+          <div class="mb-3 text-center">
+            <button (click)="register()" class="btn btn-warning btn-round-2">
+              Register
+            </button>
+          </div>
+
+          <p class="text-center">
+            Already have an account?
+            <span role="button">
+              <a (click)="loginNavigate()" class="register-link">Login</a>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<app-footer></app-footer>
+<router-outlet></router-outlet>

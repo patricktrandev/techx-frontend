@@ -1,0 +1,12 @@
+
+.header-text{
+    font-size: 2rem;
+    color:  #27ae60;
+}
+.order-payment .btn-success, .order-payment .btn-warning{
+    font-size: 1.5rem;
+    padding: 7px 45px;
+}
+.product-order-name{
+    font-weight: bold;
+}

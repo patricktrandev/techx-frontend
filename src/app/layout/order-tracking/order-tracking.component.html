@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-12 hh-grayBox pt45 pb20">
+      <div class="row justify-content-between">
+        <ng-container>
+          <div
+            *ngFor="let item of orders; let i = index"
+            class="order-tracking"
+            [ngClass]="{ completed: item.checked }"
+          >
+            <span class="is-complete"></span>
+            <p>{{ item.name }}</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

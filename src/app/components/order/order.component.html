@@ -1,0 +1,186 @@
+<app-header></app-header>
+<app-order-tracking [count]="'1'"></app-order-tracking>
+<div class="container common-home-body">
+  <div class="row">
+    <div class="col-md-4 col-sm-12">
+      <form #orderForm="ngForm">
+        <div class="text-center">
+          <h3>Customer Information</h3>
+        </div>
+        <div class="mb-2">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            [(ngModel)]="name"
+            #orderControls="ngModel"
+            placeholder="Enter your full name"
+          />
+          <ng-container *ngIf="orderControls.touched && name.length < 10">
+            <span class="text-errors-message">Name is invalid</span>
+          </ng-container>
+        </div>
+        <div class="mb-2">
+          <label for="name">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phone"
+            [(ngModel)]="phone"
+            #orderControls="ngModel"
+            placeholder="Enter your phone number"
+          />
+          <ng-container *ngIf="orderControls.touched && phone.length < 9">
+            <span class="text-errors-message">Phone number is invalid</span>
+          </ng-container>
+        </div>
+        <div class="mb-2">
+          <label for="name">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="email"
+            [(ngModel)]="email"
+            #orderControls="ngModel"
+            placeholder="Enter your email"
+          />
+          <ng-container *ngIf="orderControls.touched && email.length < 10">
+            <span class="text-errors-message">Email is required</span>
+          </ng-container>
+        </div>
+        <div class="mb-2">
+          <label for="name">Shipping Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="shippingAddress"
+            [(ngModel)]="shippingAddress"
+            #orderControls="ngModel"
+            placeholder="Enter your shipping address"
+          />
+          <ng-container
+            *ngIf="orderControls.touched && shippingAddress.length < 10"
+          >
+            <span class="text-errors-message"
+              >Shipping Address is required</span
+            >
+          </ng-container>
+        </div>
+        <div class="mb-2">
+          <label for="name">Note</label>
+          <textarea
+            rows="5"
+            name="note"
+            [(ngModel)]="note"
+            #orderControls="ngModel"
+            class="form-control"
+            placeholder="Your note... "
+            required
+          ></textarea>
+        </div>
+        <div class="mb-2">
+          <label for="selectedShippingMethod">Shipping Method</label>
+          <select
+            class="form-control access-right"
+            [(ngModel)]="selectedShippingMethod"
+            name="selectedShippingMethod"
+          >
+            <option [ngValue]="item.value" *ngFor="let item of shippingMethods">
+              {{ item.label }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="selectedPaymentMethod">Payment Method</label>
+          <select
+            class="form-control access-right"
+            [(ngModel)]="selectedPaymentMethod"
+            name="selectedPaymentMethod"
+          >
+            <option [ngValue]="item.value" *ngFor="let item of paymentMethods">
+              {{ item.label }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-8 col-sm-12">
+      <div class="text-center">
+        <h3>Product Order</h3>
+      </div>
+      <div class="mt-5">
+        <table class="table table-striped table-bordered">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr *ngFor="let p of productList; let i = index">
+              <td scope="row">{{ i + 1 }}</td>
+              <td>
+                <div class="product-order-thumb d-flex align-items-center">
+                  <img [src]="p.url" alt="pro" />
+                  <p class="product-order-name mx-3">{{ p.name }}</p>
+                </div>
+              </td>
+              <td>{{ p.quantity }}</td>
+              <td>{{ p.price | number : "1.0-2" }}</td>
+              <td>{{ p.price * p.quantity | number : "1.0-2" }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row"></th>
+              <td colspan="3">Total Amount</td>
+              <td>{{ totalAmount | number : "1.0-2" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="order-payment">
+        <div class="text-start mt-3">
+          <h4 class="header-text text-end">
+            Total: <span class="dollar">$</span>
+            {{ totalAmount | number : "1.2-2" }}
+          </h4>
+        </div>
+        <div class="mt-3">
+          <h4 class="product-header">Enter your coupon?</h4>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Your coupon" />
+            <button class="btn btn-primary" type="button">Apply</button>
+          </div>
+        </div>
+        <div
+          class="text-end mt-3"
+          *ngIf="currentUser && productList.length > 0"
+        >
+          <button
+            (click)="createOrder()"
+            class="btn btn-success btn-round-2"
+            type="button"
+          >
+            Place Order
+          </button>
+        </div>
+        <div class="text-end mt-3" *ngIf="productList.length <= 0">
+          <button
+            (click)="navigateHome()"
+            class="btn btn-success btn-round-2"
+            type="button"
+          >
+            Go shopping!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

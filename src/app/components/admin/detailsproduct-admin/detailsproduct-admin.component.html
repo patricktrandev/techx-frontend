@@ -1,0 +1,190 @@
+<div>
+  <div class="row admin-home-body m-0">
+    <div class="col-2 bg-side-bar p-0">
+      <app-sidebar></app-sidebar>
+    </div>
+
+    <div class="col-10 p-0">
+      <app-admin-header></app-admin-header>
+      <div class="overflow-auto">
+        <div class="container common-home-body">
+          <div class="row">
+            <div class="text-center">
+              <h3 class="fst-italic mb-5">
+                Category:
+                {{ productDetails?.category?.name }}
+              </h3>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div
+                  id="carouselExampleIndicators"
+                  class="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div class="carousel-indicators">
+                    <ng-container
+                      *ngFor="
+                        let item of productDetailsImageList;
+                        let i = index
+                      "
+                    >
+                      <button
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        attr.data-bs-slide-to="{{ i }}"
+                        [ngClass]="{ active: i == 0 }"
+                        aria-current="true"
+                        aria-label="Slide 1"
+                      ></button
+                    ></ng-container>
+                  </div>
+                  <div class="carousel-inner carousel-container">
+                    <div
+                      class="carousel-item"
+                      [ngClass]="{ active: i == currentImgIndex }"
+                      *ngFor="let img of productDetailsImageList; let i = index"
+                    >
+                      <img
+                        src="{{ img?.imgUrl }}"
+                        class="d-block w-100"
+                        alt="..."
+                      />
+                    </div>
+                  </div>
+                  <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+                <div class="row">
+                  <div class="thumbnail-container row mx-1">
+                    <ng-container
+                      *ngFor="let img of productDetailsImageList; let i = index"
+                    >
+                      <div
+                        class="thumbnail-item col-md px-1"
+                        [ngClass]="{ active: i == currentImgIndex }"
+                      >
+                        <img
+                          (click)="viewThumbnailImage(i)"
+                          [src]="img.imgUrl"
+                          class="thumbnail-image"
+                          alt="Thumbnail Image"
+                        />
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 product-details align-items-center">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="profile-user">
+                      <p>Name</p>
+                      <p class="py-4">Price</p>
+                      <p class="py-2">Description</p>
+                      <p>Active Product</p>
+                      <p>Category</p>
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <div class="details-product-body">
+                      <p>
+                        <input
+                          name="name"
+                          (ngModelChange)="changeName()"
+                          [(ngModel)]="name"
+                          [value]="productDetails?.name"
+                        />
+                      </p>
+                      <p>
+                        <input
+                          name="price"
+                          (ngModelChange)="changePrice()"
+                          [(ngModel)]="price"
+                          [value]="productDetails?.price"
+                        />
+                      </p>
+                      <textarea
+                        rows="3"
+                        placeholder="Description... "
+                        name="description"
+                        (ngModelChange)="changeDescription()"
+                        [(ngModel)]="description"
+                        [value]="productDetails?.description"
+                      ></textarea>
+                      <p>
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          [(ngModel)]="deactivated"
+                          (ngModelChange)="changeDeactivated()"
+                        >
+                          <option
+                            name="deactivated"
+                            [value]="s.id"
+                            *ngFor="let s of deactivate"
+                          >
+                            {{ s.label }}
+                          </option>
+                        </select>
+                      </p>
+                      <p>
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          [(ngModel)]="category"
+                          (ngModelChange)="changeCategory()"
+                        >
+                          <option
+                            name="selectedStatus"
+                            [value]="c.id"
+                            *ngFor="let c of allCategories"
+                          >
+                            {{ c.name }}
+                          </option>
+                        </select>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 mt-3 text-end">
+                  <div class="admin-product-details">
+                    <button
+                      (click)="updateProduct(productDetails?.id!)"
+                      class="mx-2 btn btn-primary"
+                      type="submit"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

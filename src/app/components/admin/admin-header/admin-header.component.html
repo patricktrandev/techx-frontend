@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <ul>
+    <div class="d-flex justify-content-end">
+      <!-- <li class="mx-3"><a href="#">Home</a></li> -->
+      <li class="px-3">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fa-solid fa-lock"></i>
+            {{ username }}
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" (click)="dashboardNavigate()"
+                >Dashboard</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="profileNavigate()">Profile</a>
+            </li>
+            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+          </ul>
+        </div>
+      </li>
+    </div>
+  </ul>
+</nav>
+<router-outlet></router-outlet>

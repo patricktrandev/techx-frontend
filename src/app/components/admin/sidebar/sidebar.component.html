@@ -1,0 +1,59 @@
+<div class="container-fluid sidebar">
+  <div>
+    <a
+      (click)="dashboardNavigate()"
+      class="sidebar-brand d-flex align-items-center justify-content-center"
+    >
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">TECHX <sup>ADMIN</sup></div>
+    </a>
+    <hr class="hr.sidebar-divider" />
+    <ul>
+      <li class="nav-item">
+        <a (click)="dashboardNavigate()" class="nav-link">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a
+        >
+      </li>
+      <hr class="hr.sidebar-divider" />
+      <li class="nav-item">
+        <a (click)="homeNavigate()" class="nav-link">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span></a
+        >
+      </li>
+      <hr class="hr.sidebar-divider" />
+
+      <li class="nav-item">
+        <a role="button" class="nav-link" (click)="productAdminNavigate()">
+          <i class="fa-solid fa-laptop"></i>
+          <span>Products</span></a
+        >
+      </li>
+
+      <li class="nav-item">
+        <a role="button" class="nav-link" (click)="orderAdminNavigate()">
+          <i class="fa-brands fa-first-order-alt"></i>
+          <span>Orders</span></a
+        >
+      </li>
+
+      <li class="nav-item">
+        <a role="button" class="nav-link" (click)="categoryAdminNavigate()">
+          <i class="fa-solid fa-wrench"></i>
+          <span>Categories</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a role="button" class="nav-link" (click)="userAdminNavigate()">
+          <i class="fa-solid fa-chess-king"></i>
+          <span>Users</span></a
+        >
+      </li>
+    </ul>
+    <hr class="hr.sidebar-divider" />
+    <!-- Divider -->
+  </div>
+</div>

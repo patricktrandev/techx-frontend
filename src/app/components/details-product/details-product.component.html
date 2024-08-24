@@ -1,0 +1,116 @@
+<app-header> </app-header>
+
+<div class="container common-home-body">
+  <app-breadcrumbs [elements]="breadcrumbArr"></app-breadcrumbs>
+  <div class="row">
+    <div class="col-md-6">
+      <div
+        id="carouselExampleIndicators"
+        class="carousel slide"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-indicators">
+          <ng-container
+            *ngFor="let item of productDetailsImageList; let i = index"
+          >
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              attr.data-bs-slide-to="{{ i }}"
+              [ngClass]="{ active: i == 0 }"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button
+          ></ng-container>
+        </div>
+        <div class="carousel-inner carousel-container">
+          <div
+            class="carousel-item"
+            [ngClass]="{ active: i == currentImgIndex }"
+            *ngFor="let img of productDetailsImageList; let i = index"
+          >
+            <img src="{{ img?.imgUrl }}" class="d-block w-100" alt="..." />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div class="row">
+        <div class="thumbnail-container row mx-1">
+          <ng-container
+            *ngFor="let img of productDetailsImageList; let i = index"
+          >
+            <div
+              class="thumbnail-item col-md px-1"
+              [ngClass]="{ active: i == currentImgIndex }"
+            >
+              <img
+                (click)="viewThumbnailImage(i)"
+                [src]="img.imgUrl"
+                class="thumbnail-image"
+                alt="Thumbnail Image"
+              />
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 product-details align-items-center">
+      <h2>
+        {{ productDetails.name }}
+      </h2>
+      <p>
+        {{ productDetails.description }}
+      </p>
+      <p class="product-details-price">
+        <span class="dollar">$</span>{{ productDetails.price | number }}
+      </p>
+      <ng-container *ngIf="productDetails.isActive != 0 ? true : false">
+        <div class="product-actions">
+          <button class="btn btn-primary" (click)="addToCart()">
+            Add to Cart
+          </button>
+          <button (click)="checkoutNavigate()" class="btn btn-success">
+            Checkout
+          </button>
+        </div>
+        <div class="product-quantity">
+          <div class="border-wrapper">
+            <button>
+              <i class="fa-solid fa-minus" (click)="decreaseQuantity()"></i>
+            </button>
+            <input class="input-quatity" type="text" [value]="quantity" />
+            <button>
+              <i class="fa-solid fa-plus" (click)="increaseQuantity()"></i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <div>
+        <p
+          *ngIf="productDetails.isActive == 0 ? true : false"
+          class="text-danger"
+        >
+          Out of Stock
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

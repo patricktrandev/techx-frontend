@@ -1,0 +1,42 @@
+.sidebar {
+    
+    background-color: #4e73df;
+    color: white;
+    width: 100vw;
+    height: 100vh;/* Full viewport height */
+}
+.sidebar .sidebar-brand {
+    color: #fff;
+    
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    .content {
+        margin-top: 20px;
+    }
+}

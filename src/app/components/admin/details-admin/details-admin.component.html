@@ -1,0 +1,123 @@
+<div>
+  <div class="row admin-home-body m-0">
+    <div class="col-2 bg-side-bar p-0">
+      <app-sidebar></app-sidebar>
+    </div>
+
+    <div class="col-10 p-0">
+      <app-admin-header></app-admin-header>
+      <div class="overflow-auto">
+        <div class="container common-home-body">
+          <div class="row">
+            <div class="text-center">
+              <h3 class="fst-italic mb-5">
+                Tracking Number #<span>{{ order.trackingNumber }}</span>
+              </h3>
+            </div>
+            <div class="col-2">
+              <div class="order-confirm-text">
+                <p>FullName</p>
+                <p>Email</p>
+                <p>Phone number</p>
+                <p>Address</p>
+                <p>Note</p>
+                <p>Shipping Method</p>
+                <p>Payment Method</p>
+                <p>Date</p>
+                <p class="my-4">Status</p>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="order-confirm-body">
+                <p>{{ order.fullname }}</p>
+                <p>{{ order.email }}</p>
+                <p>{{ order.phone_number }}</p>
+                <p>{{ order.shipping_address }}</p>
+                <p>{{ order.note }}</p>
+                <p>{{ order.shipping_method }}</p>
+                <p>{{ order.payment_method }}</p>
+                <p>{{ dateOrder }}</p>
+                <p class="d-flex">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    [(ngModel)]="selectedStatus"
+                    (ngModelChange)="changeStatus()"
+                  >
+                    <option
+                      name="selectedStatus"
+                      [value]="s.name"
+                      *ngFor="let s of orderStatus"
+                    >
+                      {{ s.name }}
+                    </option>
+                  </select>
+                  <button
+                    class="mx-2 btn btn-success btn-round-2"
+                    type="button"
+                    (click)="updateStatus(order.id)"
+                  >
+                    Update
+                  </button>
+                </p>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="mt-5">
+                <table class="table table-striped table-bordered">
+                  <thead class="table-success">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Product</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <tr *ngFor="let item of orderDetailsRes; let i = index">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>
+                        <div
+                          class="product-order-thumb d-flex align-items-center"
+                        >
+                          <img [src]="item.url" alt="pro" />
+                          <p class="product-order-name mx-3">{{ item.name }}</p>
+                        </div>
+                      </td>
+                      <td>{{ item.numberOfProduct }}</td>
+                      <td>{{ item.price | number : "1.0-2" }}</td>
+                      <td>{{ item.totalPayment | number : "1.0-2" }}</td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="3">Payment Method</td>
+                      <td class="text-center fw-bold fst-italic" colspan="2">
+                        Cash on Delivery - COD
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">Total</td>
+                      <td class="text-center fw-bold fst-italic" colspan="2">
+                        <span class="dollar">$</span>
+                        {{ order.total_payment | number : "1.2-2" }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="order-payment">
+                <div class="text-start mt-3">
+                  <h4 class="header-text text-end">
+                    Total: {{ order.total_payment | number : "1.2-2" }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+.nav-home{
+    background-color: #232f3e;
+    color: white;
+    
+}
+
+.dropdown-menu{
+    right: 0;
+    left: auto;
+}
+.nav-home .navbar-brand, .nav-home .navbar-nav li>a{
+    color: white;
+}
+.nav-home .navbar-brand img{
+    height: 60px;
+    
+}
+.nav-item{
+    cursor: pointer;
+}
+.dropdown-header:hover{
+    background-color: blue;
+    color: #fff;
+}
+.dropdown-header{
+    color: black;
+}

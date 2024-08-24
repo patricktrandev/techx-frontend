@@ -1,0 +1,59 @@
+
+.product-home{
+    padding-top: 2rem;
+    background-color: #fff;
+    min-height: 90vh;
+}
+.product-item{
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: all .5s;
+}
+.product-item:hover > img{
+    scale: 1.1;
+    
+}
+.product-image {
+    height: 280px;
+    width: 100%;
+    object-fit: cover;
+}
+.product-name{
+    font-weight: 600;
+    line-height: 1.3rem;
+}
+.product-item-content{
+    
+    padding: 1.3rem
+}
+.product-item-content p{
+   margin: 0;
+}
+.product-warranty{
+    font-size: 13px;
+}
+.product-description{
+   line-height: 12px;
+   margin-bottom: 12px;
+}
+.product-description p{
+    color: grey;
+    font-size: 0.8rem;
+    
+}
+
+.product-price{
+    font-size: 1.5rem;
+    padding-right: 10px;
+}
+
+
+  .product-actions{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+  }
+

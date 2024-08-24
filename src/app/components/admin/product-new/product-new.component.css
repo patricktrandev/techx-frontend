@@ -1,0 +1,55 @@
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  input[type="file"] {
+    margin-bottom: 20px;
+  }
+  
+  .image-preview {
+    width: 350px; /* Set desired width for the thumbnail */
+    height: 350px; /* Set desired height for the thumbnail */
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .image-preview img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensures image covers the container without distortion */
+  }
+  .image-preview-array{
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .create-product-button{
+    margin-left: auto;
+  }
+  .create-product-button .btn-outline-primary{
+    font-size: 1rem;
+    padding: 10px 4rem;
+    border-radius: 99px;
+  }

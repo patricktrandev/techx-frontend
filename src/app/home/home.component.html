@@ -1,0 +1,100 @@
+<app-header></app-header>
+<div class="intro__section admin-home-body">
+  <div class="container product-home">
+    <div class="row search-box">
+      <div class="col-lg-2 col-md-4 p-3">
+        <select class="form-control" [(ngModel)]="selectedCategoryId">
+          <option [value]="0">All Category</option>
+          <option [value]="item.id" *ngFor="let item of allCategories">
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-6 col-md-6 p-3 d-flex">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          [(ngModel)]="keyword"
+          (keydown.enter)="onEnter($event)"
+        />
+        <button
+          (click)="searchProducts()"
+          class="btn btn-outline-success"
+          type="submit"
+        >
+          Search
+        </button>
+        <button
+          (click)="clearSearch()"
+          class="btn btn-outline-danger mx-2"
+          type="submit"
+        >
+          Clear
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <ng-container *ngFor="let p of products; let i = index">
+        <div class="col-lg-3 col-md-6">
+          <div class="product-item">
+            <img [src]="p.url" alt="" class="product-image" />
+            <div class="product-item-content">
+              <p
+                class="product-name"
+                role="button"
+                (click)="productNavigate(p.id)"
+              >
+                {{ p.name }}
+              </p>
+              <div class="product-description">
+                <p>{{ p.description | slice : 0 : 20 }}</p>
+              </div>
+
+              <p class="product-warranty">Warranty</p>
+              <div class="product-rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star-half-stroke"></i>
+              </div>
+
+              <div class="product-price">
+                <span class="dollar">$</span>{{ p.price | number }}
+              </div>
+              <div class="product-actions">
+                <button
+                  (click)="productNavigate(p.id)"
+                  class="mx-2 btn btn-warning btn-round-2"
+                >
+                  See Options
+                </button>
+                <button
+                  (click)="cartNavigate()"
+                  class="btn btn-success btn-round-2"
+                  [ngClass]="{ disabled: p.is_active == 0 }"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="d-flex justify-content-end m-5">
+    <ng-container *ngIf="getTotalPages()">
+      <app-pagination
+        (pageClick)="onPageChange($event)"
+        [pagesArr]="getTotalPages()"
+      ></app-pagination>
+    </ng-container>
+  </div>
+</div>
+
+<app-footer></app-footer>

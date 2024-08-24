@@ -1,0 +1,77 @@
+<app-header></app-header>
+<div class="container common-home-body">
+  <div class="row">
+    <div class="text-center">
+      <h3 class="fst-italic mb-5">My Profile</h3>
+    </div>
+    <div class="col-md-3 m-3">
+      <img
+        src="https://res.cloudinary.com/dctb1eocj/image/upload/v1723453744/avatar/logo_q8zea4.png"
+        alt="Avatar"
+        class="avatar"
+      />
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-3">
+          <div class="profile-user">
+            <p>FullName</p>
+            <p>Phone number</p>
+            <p>Address</p>
+            <p>Date of Birth</p>
+            <p>Role</p>
+          </div>
+        </div>
+        <div class="col-8">
+          <form #profileForm="ngForm">
+            <div class="profile-user-body">
+              <p>
+                <input
+                  name="fullName"
+                  (ngModelChange)="changeFullName()"
+                  [(ngModel)]="fullName"
+                  #profileControls="ngModel"
+                  [value]="currentUser?.fullName"
+                />
+              </p>
+              <p><input disabled [value]="currentUser?.phoneNumber" /></p>
+              <p>
+                <input
+                  name="address"
+                  (ngModelChange)="changeAddress()"
+                  #profileControls="ngModel"
+                  [(ngModel)]="address"
+                  [value]="currentUser?.address"
+                />
+              </p>
+              <p>
+                <input
+                  name="dateOfBirth"
+                  (ngModelChange)="changeDateOfBirth()"
+                  [(ngModel)]="dateOfBirth"
+                  #profileControls="ngModel"
+                  type="date"
+                  [value]="currentUser?.dateOfBirth"
+                />
+              </p>
+              <p><input disabled [value]="currentUser?.role?.name" /></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="profile-actions text-center">
+      <button class="btn btn-warning btn-round-2 m-3" (click)="updateUser()">
+        Update
+      </button>
+      <button class="btn btn-primary btn-round-2 m-3">Change Password</button>
+      <button (click)="navigateMyOrder()" class="btn btn-success btn-round-2">
+        My Orders
+      </button>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

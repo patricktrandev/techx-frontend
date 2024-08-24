@@ -1,0 +1,16 @@
+.order-payment .btn-warning{
+    font-size: 1.5rem;
+    padding: 7px 45px;
+}
+.product-order-name{
+    font-weight: bold;
+}
+.order-confirm-text p{
+    font-weight: bold;
+    margin-bottom: 7px;
+   
+}
+.order-confirm-body p{
+    margin-bottom: 7px;
+    
+}
