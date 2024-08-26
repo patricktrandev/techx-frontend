@@ -15,49 +15,46 @@ import { OrderResponse } from '../responses/OrderResponse';
   standalone: true,
   imports: [HeaderComponent, FooterComponent, CommonModule, RouterOutlet],
   templateUrl: './my-order.component.html',
-  styleUrl: './my-order.component.css'
+  styleUrl: './my-order.component.css',
 })
 export class MyOrderComponent {
-  
-  currentUser?:UserResponse
-  orderList:OrderResponse[]=[]
-  constructor(private userService:UserService, private tokenService:TokenService, private router:Router, private toaster: ToastrService, private OrderService:OrderService, private route:ActivatedRoute){
-  }
-  getListOrder(){
-      const user=this.userService.getUserFromLocalStorage()
-      const {id}=user
-      this.currentUser=user
-      console.log(this.currentUser)
-      console.log(id)
+  orderList: OrderResponse[] = [];
+  constructor(
+    private userService: UserService,
+    private tokenService: TokenService,
+    private router: Router,
+    private toaster: ToastrService,
+    private OrderService: OrderService,
+    private route: ActivatedRoute
+  ) {}
+  getListOrder() {
+    const userId = this.userService.readIdFromLocalStorage();
+    const user = parseInt(userId!);
+    console.log(userId);
 
-      this.OrderService.getOrdersByUserId(id).subscribe({
-        next:(response:any)=>{
-          //console.log(response)
-          this.orderList=response
-          //console.log(this.orderList)
-          this.orderList.forEach((p: OrderResponse)=>{
-            p.shipping_date=p.shipping_date.substr(0,10)
-  
-          })
-        },
-        complete:()=>{
-          
-        },
-        error:(error:any)=>{
-        
-          console.log(error)
-          this.toaster.error(error.error.message, "Error", {closeButton:true, positionClass:'toast-top-center'})
-        }
-  
-      })
+    this.OrderService.getOrdersByUserId(user).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.orderList = response;
+        //console.log(this.orderList)
+        this.orderList.forEach((p: OrderResponse) => {
+          p.shipping_date = p.shipping_date.substr(0, 10);
+        });
+      },
+      complete: () => {},
+      error: (error: any) => {
+        console.log(error);
+        this.toaster.error(error.error.message, 'Error', {
+          closeButton: true,
+          positionClass: 'toast-top-center',
+        });
+      },
+    });
   }
-  navigateOrderDetails(id:number){
-    this.router.navigate([`/orders/${id}`])
+  navigateOrderDetails(id: number) {
+    this.router.navigate([`/orders/${id}`]);
   }
-  ngOnInit(){
-   this.getListOrder()
-    
-    
+  ngOnInit() {
+    this.getListOrder();
   }
-
 }

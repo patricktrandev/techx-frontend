@@ -68,14 +68,11 @@
                 <td>
                   <div class="d-flex">
                     <button
+                      (click)="viewUser(item.id)"
                       class="mx-1 btn btn-primary btn-round-2"
                       type="button"
                     >
-                      <i
-                        role="button"
-                        (click)="viewUser(item.id)"
-                        class="fa-solid fa-paperclip"
-                      ></i>
+                      <i role="button" class="fa-solid fa-paperclip"></i>
                     </button>
                     <button class="btn btn-danger btn-round-2" type="button">
                       <i class="fa-solid fa-trash"></i>

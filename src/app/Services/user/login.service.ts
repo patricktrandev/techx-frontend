@@ -6,18 +6,21 @@ import { env } from '../../components/enviroments/environment';
 import { Role } from '../../components/responses/RoleResponse';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-  apiUrl=`${env.apiBaseUrl}/users/login`
-  apiRoleUrl=`${env.apiBaseUrl}/roles`
-  header= new HttpHeaders({'Content-Type':"application/json",'Accept-Language':'en'})
-  constructor(private http:HttpClient) { }
-  loginUser=(data:LoginDTO)=>{
-    return this.http.post(this.apiUrl, data,{headers:this.header})
-  }
+  apiUrl = `${env.apiBaseUrl}/users/login`;
+  apiRoleUrl = `${env.apiBaseUrl}/roles`;
+  header = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept-Language': 'en',
+  });
+  constructor(private http: HttpClient) {}
+  loginUser = (data: LoginDTO): Observable<any> => {
+    return this.http.post(this.apiUrl, data, { headers: this.header });
+  };
 
-  getAllRoles=():Observable<any>=>{
-    return this.http.get<Role[]>(this.apiRoleUrl)
-  }
+  getAllRoles = (): Observable<any> => {
+    return this.http.get<Role[]>(this.apiRoleUrl);
+  };
 }

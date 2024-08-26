@@ -17,114 +17,147 @@ import { CategoryResponse } from '../../responses/CategoryResponse';
 @Component({
   selector: 'app-product-admin',
   standalone: true,
-  imports: [SidebarComponent, AdminHeaderComponent, CommonModule,PaginationComponent ,FormsModule],
+  imports: [
+    SidebarComponent,
+    AdminHeaderComponent,
+    CommonModule,
+    PaginationComponent,
+    FormsModule,
+  ],
   templateUrl: './product-admin.component.html',
-  styleUrl: './product-admin.component.css'
+  styleUrl: './product-admin.component.css',
 })
 export class ProductAdminComponent {
-  selectedCategoryId:number=0;
-  keyword:string =""
-  page:number=0
-  limit:number=10
-  productList:ProductResponse[]=[]
-  totalElements:number=0;
-  totalPages:number=0;
-  allCategories:CategoryResponse[]=[]
-  constructor(public dialog: MatDialog, private orderService:OrderService, private toaster: ToastrService, private router : Router, private productService:ProductService){
-
+  selectedCategoryId: number = 0;
+  keyword: string = '';
+  page: number = 0;
+  limit: number = 10;
+  productList: ProductResponse[] = [];
+  totalElements: number = 0;
+  totalPages: number = 0;
+  allCategories: CategoryResponse[] = [];
+  constructor(
+    public dialog: MatDialog,
+    private orderService: OrderService,
+    private toaster: ToastrService,
+    private router: Router,
+    private productService: ProductService
+  ) {}
+  getTotalPages() {
+    return Math.floor(this.totalElements / this.limit);
   }
-  getTotalPages(){
-    return Math.floor(this.totalElements/this.limit)
-  }
-  searchProducts(){
-    console.log(this.keyword)
-    console.log(this.getTotalPages())
-    this.getAllProducts(this.page, this.limit,this.selectedCategoryId, this.keyword)
+  searchProducts() {
+    console.log(this.keyword);
+    console.log(this.getTotalPages());
+    this.getAllProducts(
+      this.page,
+      this.limit,
+      this.selectedCategoryId,
+      this.keyword
+    );
   }
   clearSearch() {
-    this.keyword= '';
-    this.getAllProducts(this.page, this.limit,this.selectedCategoryId, this.keyword)
+    this.keyword = '';
+    this.getAllProducts(
+      this.page,
+      this.limit,
+      this.selectedCategoryId,
+      this.keyword
+    );
   }
-  onPageChange(pageIndex:number){
-   
-    this.page=pageIndex;
+  onPageChange(pageIndex: number) {
+    this.page = pageIndex;
     //console.log(this.currentPage)
     //console.log("total pages",this.totalPages)
-    
-    this.getAllProducts(this.page, this.limit,this.selectedCategoryId, this.keyword)
+
+    this.getAllProducts(
+      this.page,
+      this.limit,
+      this.selectedCategoryId,
+      this.keyword
+    );
   }
-  getAllProducts(page:number, limit:number,categoryId:number, keyword:string){
-    this.productService.getProducts(page, limit, categoryId,keyword).subscribe({
-      next:(response:any)=>{
-        const {products, totalElements, totalPages}=response;
-        //console.log(products)
-        products.forEach((product:ProductResponse) => {
-          
-          product.url=`${env.apiBaseUrl}/products/images/${product.thumbnail}`
-          if(product.url.includes("null")){
-          product.url="https://res.cloudinary.com/dctb1eocj/image/upload/v1723453744/avatar/logo_q8zea4.png"
-          }
-          if(product.is_active==0){
-            product.active="NO"
-          }else{
-            product.active="YES"
-          }
-        });
-        
-        
-        this.productList=products;
-        this.totalPages=totalPages;
-        this.totalElements=totalElements
-      },
-      complete:()=>{
+  getAllProducts(
+    page: number,
+    limit: number,
+    categoryId: number,
+    keyword: string
+  ) {
+    this.productService
+      .getProducts(page, limit, categoryId, keyword)
+      .subscribe({
+        next: (response: any) => {
+          const { products, totalElements, totalPages } = response;
+          //console.log(products)
+          products.forEach((product: ProductResponse) => {
+            product.url = `${env.apiBaseUrl}/products/images/${product.thumbnail}`;
+            if (product.url.includes('null')) {
+              product.url =
+                'https://res.cloudinary.com/dctb1eocj/image/upload/v1723453744/avatar/logo_q8zea4.png';
+            }
+            if (product.is_active == 0) {
+              product.active = 'NO';
+            } else {
+              product.active = 'YES';
+            }
+          });
 
-      },
-      error:(error:any)=>{
-
-      }
-
-    })
-
+          this.productList = products;
+          this.totalPages = totalPages;
+          this.totalElements = totalElements;
+        },
+        complete: () => {},
+        error: (error: any) => {},
+      });
   }
-  
+  reloadPage() {
+    window.location.reload();
+  }
 
-  openConfirmDialog(id:number): void {
+  openConfirmDialog(id: number): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteItem(id);
       }
     });
   }
 
-  deleteItem(id:number): void {
+  deleteItem(id: number): void {
     this.productService.deleteProductDetailsByAdmin(id).subscribe({
-      next:(response:any)=>{
+      next: (response: any) => {
         //console.log(response)
-        this.toaster.success(response, "Success", {closeButton:true, positionClass:'toast-top-center'})
-        this.router.navigate(['/dashboard'])
+        this.toaster.success(response, 'Success', {
+          closeButton: true,
+          positionClass: 'toast-top-center',
+        });
+        this.reloadPage();
       },
-      complete:()=>{
-        
+      complete: () => {},
+      error: (error: any) => {
+        console.log(error);
+        this.toaster.error(error.error.message, 'Error', {
+          closeButton: true,
+          positionClass: 'toast-top-center',
+        });
       },
-      error:(error:any)=>{
-      
-        console.log(error)
-        this.toaster.error(error.error.message, "Error", {closeButton:true, positionClass:'toast-top-center'})
-      }
-    })
+    });
     console.log('Item deleted');
   }
-  addProductNavigate(){
-    this.router.navigate(['/admin/products/new'])
+  addProductNavigate() {
+    this.router.navigate(['/admin/products/new']);
   }
-  orderDetailsAdminNavigate(id:number){
-    this.router.navigate([`/admin/products/${id}`])
+  orderDetailsAdminNavigate(id: number) {
+    this.router.navigate([`/admin/products/${id}`]);
   }
-  ngOnInit(){
-    this.getAllProducts(this.page, this.limit,this.selectedCategoryId, this.keyword)
-    this.getTotalPages()
-    
+  ngOnInit() {
+    this.getAllProducts(
+      this.page,
+      this.limit,
+      this.selectedCategoryId,
+      this.keyword
+    );
+    this.getTotalPages();
   }
 }

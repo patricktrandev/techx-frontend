@@ -13,78 +13,75 @@ import { UserResponse } from '../../responses/UserResponse';
 @Component({
   selector: 'app-user-admin',
   standalone: true,
-  imports: [SidebarComponent,AdminHeaderComponent,CommonModule, PaginationComponent, FormsModule],
+  imports: [
+    SidebarComponent,
+    AdminHeaderComponent,
+    CommonModule,
+    PaginationComponent,
+    FormsModule,
+  ],
   templateUrl: './user-admin.component.html',
-  styleUrl: './user-admin.component.css'
+  styleUrl: './user-admin.component.css',
 })
 export class UserAdminComponent {
-  userList:any[]=[]
-  keyword:string =""
-  page:number=0
-  limit:number=10
-  totalElements:number=0;
-  totalPages:number=0;
-  constructor(public dialog: MatDialog, private toaster: ToastrService, private router : Router, private userService:UserService){
-
+  userList: any[] = [];
+  keyword: string = '';
+  page: number = 0;
+  limit: number = 10;
+  totalElements: number = 0;
+  totalPages: number = 0;
+  constructor(
+    public dialog: MatDialog,
+    private toaster: ToastrService,
+    private router: Router,
+    private userService: UserService
+  ) {}
+  getTotalPages() {
+    return Math.floor(this.totalElements / this.limit);
   }
-  getTotalPages(){
-    return Math.floor(this.totalElements/this.limit)
+  viewUser(id: number) {
+    this.router.navigate([`/admin/users/${id}`]);
   }
-  viewUser(id:number){
-    this.router.navigate([`/admin/users/${id}`])
-  }
-  getAllUsers(page:number, limit:number, keyword:string){
-    this.userService.getAllUsersByAdmin(keyword,page, limit).subscribe({
-      next:(response:any)=>{
-        const {users, totalElements, totalPages}=response;
-        //console.log(response)
-        users.forEach((user:UserResponse) => {
-          
-          
-          if(user.is_active==1){
-            user.active="YES"
-          }else{
-            user.active="NO"
+  getAllUsers(page: number, limit: number, keyword: string) {
+    this.userService.getAllUsersByAdmin(keyword, page, limit).subscribe({
+      next: (response: any) => {
+        const { users, totalElements, totalPages } = response;
+        //console.log(response);
+        users.forEach((user: UserResponse) => {
+          if (user.isActive === 1) {
+            user.active = 'YES';
+          } else {
+            user.active = 'NO';
           }
         });
-        
-        
-        this.userList=users;
-        this.totalPages=totalPages;
-        this.totalElements=totalElements
+
+        this.userList = users;
+        this.totalPages = totalPages;
+        this.totalElements = totalElements;
       },
-      complete:()=>{
-
-      },
-      error:(error:any)=>{
-
-      }
-
-    })
-
+      complete: () => {},
+      error: (error: any) => {},
+    });
   }
-  onEnter(event:any) {
-    event.preventDefault(); 
-    this.searchUser(); 
+  onEnter(event: any) {
+    event.preventDefault();
+    this.searchUser();
   }
-  searchUser(){
+  searchUser() {
     // console.log(this.keyword)
     // console.log(this.getTotalPages())
-    this.getAllUsers(this.page,this.limit,this.keyword)
+    this.getAllUsers(this.page, this.limit, this.keyword);
   }
   clearSearch() {
-    this.keyword= '';
-    this.getAllUsers(this.page,this.limit,this.keyword)
+    this.keyword = '';
+    this.getAllUsers(this.page, this.limit, this.keyword);
   }
-  onPageChange(pageIndex:number){
-   
-    this.page=pageIndex;
-    this.getAllUsers(this.page,this.limit,this.keyword)
-    
+  onPageChange(pageIndex: number) {
+    this.page = pageIndex;
+    this.getAllUsers(this.page, this.limit, this.keyword);
   }
-  ngOnInit(){
-   
-    this.getTotalPages()
-    this.getAllUsers(this.page,this.limit,this.keyword)
+  ngOnInit() {
+    this.getTotalPages();
+    this.getAllUsers(this.page, this.limit, this.keyword);
   }
 }
