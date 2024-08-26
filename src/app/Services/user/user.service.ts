@@ -114,7 +114,10 @@ export class UserService {
       console.error('Error saving user.', error);
     }
   }
-
+  readIdFromLocalStorage() {
+    const userResponse = localStorage.getItem(env.id);
+    return userResponse;
+  }
   readDataFromLocalStorage(field: string) {
     try {
       const userResponse = localStorage.getItem(field);

@@ -37,6 +37,7 @@ export class LoginComponent {
   phone: string = '';
   password: string = '';
   roles: Role[] = [];
+  userRole: string = '';
   username: string = '';
   rememberMe: boolean = true;
   selectedRole: Role | undefined;
@@ -65,11 +66,6 @@ export class LoginComponent {
     return this.loginService.loginUser(userLogin);
   }
 
-  getUserDetailsInLogin = () => {
-    return this.httpClient.get(this.apiDetailsUserUrl, {
-      headers: this.header,
-    });
-  };
   login() {
     const userLogin: LoginDTO = {
       phone_number: this.phone,
@@ -78,24 +74,33 @@ export class LoginComponent {
     };
 
     //console.log(userLogin)
+    this.loginService.loginUser(userLogin).subscribe({
+      next: (response: any) => {
+        const { message, token, id, username, roles } = response.data;
+        this.userRole = response.data.roles.name!;
 
-    this.loginUser(userLogin)
-      .pipe(
-        switchMap((response): Observable<any> => {
-          const { message, token } = response;
-
-          this.tokenService.setToken(token);
-          return this.getUserDetailsInLogin();
-        })
-      )
-      .subscribe((responseUser) => {
-        const { fullName, role } = responseUser;
-
-        this.userService.saveUserToLocalStorage(fullName);
-        this.userService.saveSomethingToLocalStorage(`${env.role}`, role.name);
-        console.log('Task 2 completed with result:', responseUser);
+        this.tokenService.setToken(response.data.token);
+        this.userService.saveSomethingToLocalStorage(
+          env.role,
+          response.data.roles.name
+        );
+        this.userService.saveSomethingToLocalStorage(env.id, response.data.id);
+        this.userService.saveUserToLocalStorage(response.data.username);
+        this.toaster.success(message, 'Success', {
+          closeButton: true,
+          positionClass: 'toast-top-center',
+        });
         this.router.navigate(['./']);
-      });
+      },
+      complete: () => {},
+      error: (error: any) => {
+        console.log(error);
+        this.toaster.error(error.error.message, 'Error', {
+          closeButton: true,
+          positionClass: 'toast-top-center',
+        });
+      },
+    });
   }
 
   homeNavigate() {
